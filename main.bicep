@@ -26,4 +26,7 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
       filesystem: storageContainerName
     }
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
 }
