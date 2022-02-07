@@ -20,6 +20,9 @@ resource myStorageContainer 'Microsoft.Storage/storageAccounts/blobServices/cont
   properties: {
     publicAccess: 'Container'
   }
+  dependsOn: [
+    myStorage
+  ]
 }
 
 resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
