@@ -25,4 +25,4 @@ jobs:
       - name: Run deploy script
         shell: pwsh
         run: |
-          ./deploy-any.ps1
+          ./deploy.ps1
