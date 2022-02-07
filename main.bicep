@@ -11,3 +11,8 @@ resource myStorage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
     isHnsEnabled: true
   }
 }
+
+resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
+  name: unq
+  location: resourceGroup().location 
+}
