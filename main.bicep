@@ -27,7 +27,7 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
     defaultDataLakeStorage: {
       resourceId: myStorage.id
       filesystem: storageContainerName
-      accountUrl: 'https://${unq}.blob.core.windows.net'
+      accountUrl: 'https://${unq}.dfs.core.windows.net'
     }
   }
   identity: {
