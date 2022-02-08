@@ -33,6 +33,9 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
       filesystem: storageContainerName
       accountUrl: 'https://${storageAccountName}.dfs.core.windows.net'
     }
+    sqlAdministratorLogin: 'mgarner'
+    sqlAdministratorLoginPassword: 'alkjsdhflakjdh!A'
+    managedVirtualNetwork: 'default'
   }
   identity: {
     type: 'SystemAssigned'
