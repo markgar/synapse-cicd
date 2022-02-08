@@ -52,12 +52,12 @@ resource synapseFirewall_AllowAllAzureIps 'Microsoft.Synapse/workspaces/firewall
   }
 }
 
-resource workspaceName_managedIdentityStuff 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2019-06-01-preview' = {
-  parent: mySynapse
-  name: 'default'
-  properties: {
-    grantSqlControlToManagedIdentity: {
-      desiredState: 'Enabled'
-    }
-  }
-}
+// resource workspaceName_managedIdentityStuff 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2019-06-01-preview' = {
+//   parent: mySynapse
+//   name: 'default'
+//   properties: {
+//     grantSqlControlToManagedIdentity: {
+//       desiredState: 'Enabled'
+//     }
+//   }
+// }
