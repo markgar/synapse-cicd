@@ -43,14 +43,14 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
 }
 
 
-resource synapseFirewall_AllowAllAzureIps 'Microsoft.Synapse/workspaces/firewallrules@2019-06-01-preview' = {
-  parent: mySynapse
-  name: 'AllowAllWindowsAzureIps'
-  properties: {
-    startIpAddress: '0.0.0.0'
-    endIpAddress: '0.0.0.0'
-  }
-}
+// resource synapseFirewall_AllowAllAzureIps 'Microsoft.Synapse/workspaces/firewallrules@2019-06-01-preview' = {
+//   parent: mySynapse
+//   name: 'AllowAllWindowsAzureIps'
+//   properties: {
+//     startIpAddress: '0.0.0.0'
+//     endIpAddress: '0.0.0.0'
+//   }
+// }
 
 // resource workspaceName_managedIdentityStuff 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2019-06-01-preview' = {
 //   parent: mySynapse
