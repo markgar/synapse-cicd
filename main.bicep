@@ -75,7 +75,8 @@ resource Microsoft_Authorization_roleAssignments_dlsName 'Microsoft.Authorizatio
   name: guid(uniqueString(myStorage.name))
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
-    principalId: reference(mySynapse.id, '2019-06-01-preview', 'Full').identity.principalId
+    principalId: mySynapse.identity.principalId
+    //reference(mySynapse.id, '2019-06-01-preview', 'Full').identity.principalId
     principalType: 'ServicePrincipal'
   }
 }
