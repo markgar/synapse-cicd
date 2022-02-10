@@ -40,6 +40,9 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
   identity: {
     type: 'SystemAssigned'
   }
+  dependsOn: [
+    myStorage
+  ]
 }
 
 resource workspaceName_managedIdentityStuff 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2019-06-01-preview' = {
@@ -53,7 +56,7 @@ resource workspaceName_managedIdentityStuff 'Microsoft.Synapse/workspaces/manage
 }
 
 resource Microsoft_Authorization_roleAssignments_dlsName 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  scope: mySynapse
+  scope: myStorage
   name: guid(uniqueString(myStorage.name))
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
