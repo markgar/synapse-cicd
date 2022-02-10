@@ -42,24 +42,6 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
   }
 }
 
-resource synapseFirewall_AllowAllAzureIps 'Microsoft.Synapse/workspaces/firewallrules@2019-06-01-preview' = {
-  parent: mySynapse
-  name: 'AllowAllWindowsAzureIps'
-  properties: {
-    startIpAddress: '0.0.0.0'
-    endIpAddress: '0.0.0.0'
-  }
-}
-
-resource workspaceName_allowAll 'Microsoft.Synapse/workspaces/firewallrules@2019-06-01-preview' = {
-  parent: mySynapse
-  name: 'allowAll'
-  properties: {
-    startIpAddress: '0.0.0.0'
-    endIpAddress: '255.255.255.255'
-  }
-}
-
 resource workspaceName_managedIdentityStuff 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2019-06-01-preview' = {
   parent: mySynapse
   name: 'default'
@@ -75,8 +57,27 @@ resource Microsoft_Authorization_roleAssignments_dlsName 'Microsoft.Authorizatio
   name: guid(uniqueString(myStorage.name))
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
-    principalId: mySynapse.identity.principalId
-    //reference(mySynapse.id, '2019-06-01-preview', 'Full').identity.principalId
+    principalId: reference(mySynapse.id, '2019-06-01-preview', 'Full').identity.principalId
     principalType: 'ServicePrincipal'
   }
 }
+
+// resource synapseFirewall_AllowAllAzureIps 'Microsoft.Synapse/workspaces/firewallrules@2019-06-01-preview' = {
+//   parent: mySynapse
+//   name: 'AllowAllWindowsAzureIps'
+//   properties: {
+//     startIpAddress: '0.0.0.0'
+//     endIpAddress: '0.0.0.0'
+//   }
+// }
+
+resource workspaceName_allowAll 'Microsoft.Synapse/workspaces/firewallrules@2019-06-01-preview' = {
+  parent: mySynapse
+  name: 'allowAll'
+  properties: {
+    startIpAddress: '0.0.0.0'
+    endIpAddress: '255.255.255.255'
+  }
+}
+
+
