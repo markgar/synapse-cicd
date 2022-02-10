@@ -36,12 +36,13 @@ resource mySynapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
     sqlAdministratorLogin: 'mgarner'
     sqlAdministratorLoginPassword: 'alkjsdhflakjdh!A'
     managedVirtualNetwork: 'default'
+    managedResourceGroupName: 'mrg_${synapseWorkspaceName}'
   }
   identity: {
     type: 'SystemAssigned'
   }
   dependsOn: [
-    myStorage
+    myStorageContainer
   ]
 }
 
