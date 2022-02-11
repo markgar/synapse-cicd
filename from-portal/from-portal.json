@@ -161,6 +161,65 @@
             "tags": "[parameters('tagValues')]"
         },
         {
+            "condition": "[parameters('isNewStorageAccount')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[parameters('defaultDataLakeStorageAccountName')]",
+            "apiVersion": "2021-01-01",
+            "location": "[parameters('storageLocation')]",
+            "properties": {
+                "accessTier": "[parameters('storageAccessTier')]",
+                "supportsHttpsTrafficOnly": "[parameters('storageSupportsHttpsTrafficOnly')]",
+                "isHnsEnabled": "[parameters('storageIsHnsEnabled')]",
+                "minimumTlsVersion": "[parameters('minimumTlsVersion')]"
+            },
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            },
+            "kind": "[parameters('storageKind')]",
+            "tags": {},
+            "resources": [
+                {
+                    "condition": "[parameters('isNewStorageAccount')]",
+                    "name": "[concat('default/', parameters('defaultDataLakeStorageFilesystemName'))]",
+                    "type": "blobServices/containers",
+                    "apiVersion": "2021-01-01",
+                    "properties": {
+                        "publicAccess": "None"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Storage/storageAccounts/', parameters('defaultDataLakeStorageAccountName'))]"
+                    ]
+                }
+            ]
+        },
+        {
+            "condition": "[parameters('isNewFileSystemOnly')]",
+            "apiVersion": "2019-05-01",
+            "name": "[parameters('defaultDataLakeStorageFilesystemName')]",
+            "type": "Microsoft.Resources/deployments",
+            "subscriptionId": "[parameters('storageSubscriptionID')]",
+            "resourceGroup": "[parameters('storageResourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+                            "name": "[concat(parameters('defaultDataLakeStorageAccountName'), '/default/', parameters('defaultDataLakeStorageFilesystemName'))]",
+                            "apiVersion": "2021-01-01",
+                            "properties": {
+                                "publicAccess": "None"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
             "condition": "[parameters('setWorkspaceIdentityRbacOnStorageAccount')]",
             "apiVersion": "2019-05-01",
             "name": "StorageRoleDeploymentResource",
@@ -198,72 +257,6 @@
                                 "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataContributorRoleID'))]",
                                 "principalId": "[parameters('userObjectId')]",
                                 "principalType": "User"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "condition": "[parameters('isNewStorageAccount')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[parameters('defaultDataLakeStorageAccountName')]",
-            "apiVersion": "2021-01-01",
-            "location": "[parameters('storageLocation')]",
-            "properties": {
-                "accessTier": "[parameters('storageAccessTier')]",
-                "supportsHttpsTrafficOnly": "[parameters('storageSupportsHttpsTrafficOnly')]",
-                "isHnsEnabled": "[parameters('storageIsHnsEnabled')]",
-                "minimumTlsVersion": "[parameters('minimumTlsVersion')]"
-            },
-            "sku": {
-                "name": "[parameters('storageAccountType')]"
-            },
-            "kind": "[parameters('storageKind')]",
-            "tags": {},
-            "resources": [
-                {
-                    "condition": "[parameters('isNewStorageAccount')]",
-                    "name": "[concat('default/', parameters('defaultDataLakeStorageFilesystemName'))]",
-                    "type": "blobServices/containers",
-                    "apiVersion": "2021-01-01",
-                    "properties": {
-                        "publicAccess": "None"
-                    },
-                    "dependsOn": [
-                        "[concat('Microsoft.Storage/storageAccounts/', parameters('defaultDataLakeStorageAccountName'))]"
-                    ]
-                }
-            ]
-        },
-
-
-
-
-
-
-        
-        {
-            "condition": "[parameters('isNewFileSystemOnly')]",
-            "apiVersion": "2019-05-01",
-            "name": "[parameters('defaultDataLakeStorageFilesystemName')]",
-            "type": "Microsoft.Resources/deployments",
-            "subscriptionId": "[parameters('storageSubscriptionID')]",
-            "resourceGroup": "[parameters('storageResourceGroupName')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "variables": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-                            "name": "[concat(parameters('defaultDataLakeStorageAccountName'), '/default/', parameters('defaultDataLakeStorageFilesystemName'))]",
-                            "apiVersion": "2021-01-01",
-                            "properties": {
-                                "publicAccess": "None"
                             }
                         }
                     ]

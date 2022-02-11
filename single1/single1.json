@@ -161,79 +161,6 @@
             "tags": "[parameters('tagValues')]"
         },
         {
-            "condition": "[parameters('setWorkspaceIdentityRbacOnStorageAccount')]",
-            "apiVersion": "2019-05-01",
-            "name": "StorageRoleDeploymentResource",
-            "type": "Microsoft.Resources/deployments",
-            "subscriptionId": "[parameters('storageSubscriptionID')]",
-            "resourceGroup": "[parameters('storageResourceGroupName')]",
-            "dependsOn": [
-                "[concat('Microsoft.Synapse/workspaces/', parameters('name'))]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "variables": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
-                            "apiVersion": "2018-09-01-preview",
-                            "name": "[concat(parameters('defaultDataLakeStorageAccountName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataContributorRoleID'), '/', parameters('name'), '/', parameters('storageRoleUniqueId'))))]",
-                            "location": "[parameters('storageLocation')]",
-                            "properties": {
-                                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataContributorRoleID'))]",
-                                "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', parameters('name')), '2021-06-01', 'Full').identity.principalId]",
-                                "principalType": "ServicePrincipal"
-                            }
-                        },
-                        {
-                            "condition": "[parameters('setSbdcRbacOnStorageAccount')]",
-                            "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
-                            "apiVersion": "2018-09-01-preview",
-                            "name": "[concat(parameters('defaultDataLakeStorageAccountName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataContributorRoleID'), '/', parameters('userObjectId'), '/', parameters('storageRoleUniqueId'))))]",
-                            "properties": {
-                                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataContributorRoleID'))]",
-                                "principalId": "[parameters('userObjectId')]",
-                                "principalType": "User"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "condition": "[parameters('setWorkspaceMsiByPassOnStorageAccount')]",
-            "apiVersion": "2019-05-01",
-            "name": "UpdateStorageAccountNetworkingAcls",
-            "type": "Microsoft.Resources/deployments",
-            "subscriptionId": "[parameters('storageSubscriptionID')]",
-            "resourceGroup": "[parameters('storageResourceGroupName')]",
-            "dependsOn": [
-                "[concat('Microsoft.Synapse/workspaces/', parameters('name'))]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "variables": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Storage/storageAccounts",
-                            "apiVersion": "2021-01-01",
-                            "location": "[parameters('storageLocation')]",
-                            "name": "[parameters('defaultDataLakeStorageAccountName')]",
-                            "properties": "[parameters('workspaceStorageAccountProperties')]"
-                        }
-                    ]
-                }
-            }
-        },
-        {
             "condition": "[parameters('isNewStorageAccount')]",
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[parameters('defaultDataLakeStorageAccountName')]",
@@ -264,34 +191,8 @@
                     ]
                 }
             ]
-        },
-        {
-            "condition": "[parameters('isNewFileSystemOnly')]",
-            "apiVersion": "2019-05-01",
-            "name": "[parameters('defaultDataLakeStorageFilesystemName')]",
-            "type": "Microsoft.Resources/deployments",
-            "subscriptionId": "[parameters('storageSubscriptionID')]",
-            "resourceGroup": "[parameters('storageResourceGroupName')]",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "variables": {},
-                    "resources": [
-                        {
-                            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-                            "name": "[concat(parameters('defaultDataLakeStorageAccountName'), '/default/', parameters('defaultDataLakeStorageFilesystemName'))]",
-                            "apiVersion": "2021-01-01",
-                            "properties": {
-                                "publicAccess": "None"
-                            }
-                        }
-                    ]
-                }
-            }
         }
+        
     ],
     "outputs": {}
 }
