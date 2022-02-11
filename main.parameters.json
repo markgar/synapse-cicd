@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "name": {
+        "workspaceName": {
             "value": "mynewworkspace-mg"
         },
         "location": {
@@ -42,7 +42,7 @@
             "value": "75ebdae9-6e1c-4baa-8b2e-5576f6356a91"
         },
         "storageResourceGroupName": {
-            "value": "synapse-cicd-2"
+            "value": "synapse-cicd-3"
         },
         "storageLocation": {
             "value": "eastus"

@@ -18,7 +18,7 @@ param allowAllConnections bool = true
 param managedVirtualNetwork string
 param tagValues object = {}
 param storageSubscriptionID string = subscription().subscriptionId
-param storageResourceGroupName string = resourceGroup().name
+//param storageResourceGroupName string = resourceGroup().name
 param storageLocation string = resourceGroup().location
 param storageRoleUniqueId string = newGuid()
 param isNewStorageAccount bool = false
@@ -39,7 +39,7 @@ param workspaceStorageAccountProperties object = {}
 var storageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var defaultDataLakeStorageAccountUrl = 'https://${defaultDataLakeStorageAccountName}.dfs.core.windows.net'
 
-resource name_resource 'Microsoft.Synapse/workspaces@2021-06-01' = {
+resource synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
   name: workspaceName
   location: location
   identity: {
@@ -59,14 +59,13 @@ resource name_resource 'Microsoft.Synapse/workspaces@2021-06-01' = {
   }
   tags: tagValues
   dependsOn: [
-    defaultDataLakeStorageAccountName_resource
-    'Microsoft.Resources/deployments/${defaultDataLakeStorageFilesystemName}'
+    storageAccount
+    //'Microsoft.Resources/deployments/${defaultDataLakeStorageFilesystemName}'
   ]
 }
 
 resource name_allowAll 'Microsoft.Synapse/workspaces/firewallrules@2021-06-01' = if (allowAllConnections) {
-  parent: name_resource
-  location: location
+  parent: synapseWorkspace
   name: 'allowAll'
   properties: {
     startIpAddress: '0.0.0.0'
@@ -74,7 +73,7 @@ resource name_allowAll 'Microsoft.Synapse/workspaces/firewallrules@2021-06-01' =
   }
 }
 
-resource defaultDataLakeStorageAccountName_resource 'Microsoft.Storage/storageAccounts@2021-01-01' = if (isNewStorageAccount) {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-01-01' = if (isNewStorageAccount) {
   name: defaultDataLakeStorageAccountName
   location: storageLocation
   properties: {
@@ -90,26 +89,27 @@ resource defaultDataLakeStorageAccountName_resource 'Microsoft.Storage/storageAc
   tags: {}
 }
 
-resource defaultDataLakeStorageAccountName_default_defaultDataLakeStorageFilesystemName 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-01-01' = if (isNewStorageAccount) {
+resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-01-01' = if (isNewStorageAccount) {
   name: '${defaultDataLakeStorageAccountName}/default/${defaultDataLakeStorageFilesystemName}'
   properties: {
     publicAccess: 'None'
   }
   dependsOn: [
-    defaultDataLakeStorageAccountName_resource
+    storageAccount
   ]
 }
 
-module defaultDataLakeStorageFilesystemName_resource './nested_defaultDataLakeStorageFilesystemName_resource.bicep' = if (isNewFileSystemOnly) {
-  name: defaultDataLakeStorageFilesystemName
-  scope: resourceGroup(storageSubscriptionID, storageResourceGroupName)
-  params: {
-    defaultDataLakeStorageAccountName: defaultDataLakeStorageAccountName
-    defaultDataLakeStorageFilesystemName: defaultDataLakeStorageFilesystemName
-  }
-}
+// I'M NOT USING THIS
+// module deployStorage './nested_defaultDataLakeStorageFilesystemName_resource.bicep' = if (isNewFileSystemOnly) {
+//   name: defaultDataLakeStorageFilesystemName
+//   scope: resourceGroup(storageSubscriptionID, storageResourceGroupName)
+//   params: {
+//     defaultDataLakeStorageAccountName: defaultDataLakeStorageAccountName
+//     defaultDataLakeStorageFilesystemName: defaultDataLakeStorageFilesystemName
+//   }
+// }
 
-module StorageRoleDeploymentResource './nested_StorageRoleDeploymentResource.bicep' = if (setWorkspaceIdentityRbacOnStorageAccount) {
+module deployStorageRoles './nested_StorageRoleDeploymentResource.bicep' = if (setWorkspaceIdentityRbacOnStorageAccount) {
   name: 'StorageRoleDeploymentResource'
   scope: resourceGroup(storageSubscriptionID, storageResourceGroupName)
   params: {
@@ -124,19 +124,20 @@ module StorageRoleDeploymentResource './nested_StorageRoleDeploymentResource.bic
     userObjectId: userObjectId
   }
   dependsOn: [
-    'Microsoft.Synapse/workspaces/${workspaceName}'
+    synapseWorkspace
   ]
 }
 
-module UpdateStorageAccountNetworkingAcls './nested_UpdateStorageAccountNetworkingAcls.bicep' = if (setWorkspaceMsiByPassOnStorageAccount) {
-  name: 'UpdateStorageAccountNetworkingAcls'
-  scope: resourceGroup(storageSubscriptionID, storageResourceGroupName)
-  params: {
-    storageLocation: storageLocation
-    defaultDataLakeStorageAccountName: defaultDataLakeStorageAccountName
-    workspaceStorageAccountProperties: workspaceStorageAccountProperties
-  }
-  dependsOn: [
-    'Microsoft.Synapse/workspaces/${workspaceName}'
-  ]
-}
+// NOT USING THIS
+// module UpdateStorageAccountNetworkingAcls './nested_UpdateStorageAccountNetworkingAcls.bicep' = if (setWorkspaceMsiByPassOnStorageAccount) {
+//   name: 'UpdateStorageAccountNetworkingAcls'
+//   scope: resourceGroup(storageSubscriptionID, storageResourceGroupName)
+//   params: {
+//     storageLocation: storageLocation
+//     defaultDataLakeStorageAccountName: defaultDataLakeStorageAccountName
+//     workspaceStorageAccountProperties: workspaceStorageAccountProperties
+//   }
+//   dependsOn: [
+//     synapseWorkspace
+//   ]
+// }

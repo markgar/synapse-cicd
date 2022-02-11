@@ -6,4 +6,8 @@ resource defaultDataLakeStorageAccountName_resource 'Microsoft.Storage/storageAc
   location: storageLocation
   name: defaultDataLakeStorageAccountName
   properties: workspaceStorageAccountProperties
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
 }
