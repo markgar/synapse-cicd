@@ -1,6 +1,6 @@
 param reference_concat_Microsoft_Synapse_workspaces_parameters_name_2021_06_01_Full_identity_principalId object
 param resourceId_Microsoft_Authorization_roleDefinitions_variables_storageBlobDataContributorRoleID string
-param variables_storageBlobDataContributorRoleID ? /* TODO: fill in correct type */
+param variables_storageBlobDataContributorRoleID string
 param defaultDataLakeStorageAccountName string
 param name string
 param storageRoleUniqueId string
