@@ -18,7 +18,7 @@ param allowAllConnections bool = true
 param managedVirtualNetwork string
 param tagValues object = {}
 param storageSubscriptionID string = subscription().subscriptionId
-//param storageResourceGroupName string = resourceGroup().name
+param storageResourceGroupName string = resourceGroup().name
 param storageLocation string = resourceGroup().location
 param storageRoleUniqueId string = newGuid()
 param isNewStorageAccount bool = false
