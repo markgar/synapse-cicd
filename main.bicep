@@ -1,4 +1,4 @@
-param name string
+param workspaceName string
 param location string
 param defaultDataLakeStorageAccountName string
 param defaultDataLakeStorageFilesystemName string
@@ -40,7 +40,7 @@ var storageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var defaultDataLakeStorageAccountUrl = 'https://${defaultDataLakeStorageAccountName}.dfs.core.windows.net'
 
 resource name_resource 'Microsoft.Synapse/workspaces@2021-06-01' = {
-  name: name
+  name: workspaceName
   location: location
   identity: {
     type: 'SystemAssigned'
@@ -113,18 +113,18 @@ module StorageRoleDeploymentResource './nested_StorageRoleDeploymentResource.bic
   name: 'StorageRoleDeploymentResource'
   scope: resourceGroup(storageSubscriptionID, storageResourceGroupName)
   params: {
-    reference_concat_Microsoft_Synapse_workspaces_parameters_name_2021_06_01_Full_identity_principalId: reference('Microsoft.Synapse/workspaces/${name}', '2021-06-01', 'Full')
+    reference_concat_Microsoft_Synapse_workspaces_parameters_name_2021_06_01_Full_identity_principalId: reference('Microsoft.Synapse/workspaces/${workspaceName}', '2021-06-01', 'Full')
     resourceId_Microsoft_Authorization_roleDefinitions_variables_storageBlobDataContributorRoleID: resourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributorRoleID)
     variables_storageBlobDataContributorRoleID: storageBlobDataContributorRoleID
     defaultDataLakeStorageAccountName: defaultDataLakeStorageAccountName
-    name: name
+    name: workspaceName
     storageRoleUniqueId: storageRoleUniqueId
     storageLocation: storageLocation
     setSbdcRbacOnStorageAccount: setSbdcRbacOnStorageAccount
     userObjectId: userObjectId
   }
   dependsOn: [
-    'Microsoft.Synapse/workspaces/${name}'
+    'Microsoft.Synapse/workspaces/${workspaceName}'
   ]
 }
 
@@ -137,6 +137,6 @@ module UpdateStorageAccountNetworkingAcls './nested_UpdateStorageAccountNetworki
     workspaceStorageAccountProperties: workspaceStorageAccountProperties
   }
   dependsOn: [
-    'Microsoft.Synapse/workspaces/${name}'
+    'Microsoft.Synapse/workspaces/${workspaceName}'
   ]
 }
