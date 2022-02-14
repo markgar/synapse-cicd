@@ -73,7 +73,7 @@ resource admin 'Microsoft.Synapse/workspaces/administrators@2021-06-01' = {
   properties: {
     administratorType: 'Synapse Administrator'
     login: 'mgarner@microsoft.com'
-
+    sid: '5d9129b8-e338-4a58-9914-fd49a178fc92'
   }
 }
 
