@@ -71,9 +71,9 @@ resource admin 'Microsoft.Synapse/workspaces/administrators@2021-06-01' = {
   name: 'activeDirectory'
   parent: synapseWorkspace
   properties: {
-     administratorType: 'Synapse Administrator'
+    administratorType: 'Synapse Administrator'
     login: 'mgarner@microsoft.com'
-    
+
   }
 }
 
