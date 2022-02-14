@@ -67,6 +67,17 @@ resource synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
   ]
 }
 
+resource admin 'Microsoft.Synapse/workspaces/administrators@2021-06-01' = {
+  name: 'activeDirectory'
+  parent: synapseWorkspace
+  properties: {
+     administratorType: 'Synapse Administrator'
+    login: 'mgarner@microsoft.com'
+    
+  }
+}
+
+
 resource name_allowAll 'Microsoft.Synapse/workspaces/firewallrules@2021-06-01' = if (allowAllConnections) {
   parent: synapseWorkspace
   name: 'allowAll'
