@@ -22,7 +22,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Run deploy script
+      - name: Deploy Service
         shell: pwsh
         run: |
           ./deploy.ps1
+
+      - name: Run deploy script
+        shell: pwsh
+        run: |
+          az synapse role assignment create --workspace-name mynewworkspace-mg --role "Synapse Administrator" --assignee mgarner@microsoft.com
