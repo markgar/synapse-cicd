@@ -56,6 +56,9 @@ resource synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     managedResourceGroupName: managedResourceGroupName
     sqlAdministratorLogin: sqlAdministratorLogin
     sqlAdministratorLoginPassword: sqlAdministratorLoginPassword
+    cspWorkspaceAdminProperties: {
+      initialWorkspaceAdminObjectId: userObjectId
+    }
   }
   tags: tagValues
   dependsOn: [
