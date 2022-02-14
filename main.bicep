@@ -22,8 +22,8 @@ param storageResourceGroupName string = resourceGroup().name
 param storageLocation string = resourceGroup().location
 param storageRoleUniqueId string = newGuid()
 param isNewStorageAccount bool = false
-//param isNewFileSystemOnly bool = false
-//param adlaResourceId string = ''
+param isNewFileSystemOnly bool = false
+param adlaResourceId string = ''
 param managedResourceGroupName string = ''
 param storageAccessTier string
 param storageAccountType string
@@ -33,8 +33,8 @@ param minimumTlsVersion string
 param storageIsHnsEnabled bool
 param userObjectId string = ''
 param setSbdcRbacOnStorageAccount bool = false
-//param setWorkspaceMsiByPassOnStorageAccount bool = false
-//param workspaceStorageAccountProperties object = {}
+param setWorkspaceMsiByPassOnStorageAccount bool = false
+param workspaceStorageAccountProperties object = {}
 
 var storageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var defaultDataLakeStorageAccountUrl = 'https://${defaultDataLakeStorageAccountName}.dfs.core.windows.net'
