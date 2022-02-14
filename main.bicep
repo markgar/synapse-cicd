@@ -57,7 +57,7 @@ resource synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     sqlAdministratorLogin: sqlAdministratorLogin
     sqlAdministratorLoginPassword: sqlAdministratorLoginPassword
     cspWorkspaceAdminProperties: {
-      initialWorkspaceAdminObjectId: userObjectId
+      initialWorkspaceAdminObjectId: '2fc7da5f-aed2-4f30-bb85-196a5be698df'  //sub-cicd sp
     }
   }
   tags: tagValues

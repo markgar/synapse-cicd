@@ -27,7 +27,7 @@ jobs:
         run: |
           ./deploy.ps1
 
-      - name: Run deploy script
+      - name: Add access rights
         shell: pwsh
         run: |
           az synapse role assignment create --workspace-name mynewworkspace-mg --role "Synapse Administrator" --assignee mgarner@microsoft.com
