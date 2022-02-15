@@ -1,3 +1,4 @@
 $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
 
-az deployment group create -g synapse-cicd-3 --template-file ./main.bicep --parameters main.parameters.json --name $deploymentName
+az group create -n e2e-4 --location eastus
+az deployment group create -g e2e-4 --template-file ./accel/Azure AnalyticsE2E.bicep --parameters "synapseSqlAdminPassword=!@#123qweasd" --name $deploymentName
