@@ -1,0 +1,195 @@
+
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkIsolationMode": {
+            "value": "default"
+        },
+        "resourceLocation": {
+            "value": "eastus"
+        },
+        "uniqueSuffix": {
+            "value": "7s7mv"
+        },
+        "ctrlDeployPurview": {
+            "value": false
+        },
+        "ctrlDeployAI": {
+            "value": false
+        },
+        "ctrlDeployStreaming": {
+            "value": false
+        },
+        "ctrlDeployDataShare": {
+            "value": false
+        },
+        "ctrlDeployPrivateDNSZones": {
+            "value": false
+        },
+        "ctrlNewOrExistingVNet": {
+            "value": "new"
+        },
+        "ctrlStreamIngestionService": {
+            "value": "eventhub"
+        },
+        "deploymentDatetime": {
+            "value": "20220215T155237Z"
+        },
+        "existingVNetResourceGroupName": {
+            "value": "e2e"
+        },
+        "vNetName": {
+            "value": "azvnet7s7mv"
+        },
+        "vNetIPAddressPrefixes": {
+            "value": [
+                "10.1.0.0/16"
+            ]
+        },
+        "vNetSubnetName": {
+            "value": "default"
+        },
+        "vNetSubnetIPAddressPrefix": {
+            "value": "10.1.0.0/24"
+        },
+        "workspaceDataLakeAccountName": {
+            "value": "azwksdatalake7s7mv"
+        },
+        "rawDataLakeAccountName": {
+            "value": "azrawdatalake7s7mv"
+        },
+        "curatedDataLakeAccountName": {
+            "value": "azcurateddatalake7s7mv"
+        },
+        "dataLakeRawZoneName": {
+            "value": "raw"
+        },
+        "dataLakeTrustedZoneName": {
+            "value": "trusted"
+        },
+        "dataLakeCuratedZoneName": {
+            "value": "curated"
+        },
+        "dataLakeTransientZoneName": {
+            "value": "transient"
+        },
+        "dataLakeSandpitZoneName": {
+            "value": "sandpit"
+        },
+        "synapseDefaultContainerName": {
+            "value": "azsynapsewks7s7mv"
+        },
+        "synapseWorkspaceName": {
+            "value": "azsynapsewks7s7mv"
+        },
+        "synapseSqlAdminUserName": {
+            "value": "azsynapseadmin"
+        },
+        "synapseSqlAdminPassword": {
+            "value": "Ql4t!bd.777!"
+        },
+        "synapseManagedRGName": {
+            "value": "azsynapsewks7s7mv-mrg"
+        },
+        "ctrlDeploySynapseSQLPool": {
+            "value": false
+        },
+        "synapseDedicatedSQLPoolName": {
+            "value": "EnterpriseDW"
+        },
+        "synapseSQLPoolSKU": {
+            "value": "DW100c"
+        },
+        "ctrlDeploySynapseSparkPool": {
+            "value": false
+        },
+        "synapseSparkPoolName": {
+            "value": "SparkPool"
+        },
+        "synapseSparkPoolNodeSize": {
+            "value": "Small"
+        },
+        "synapseSparkPoolMinNodeCount": {
+            "value": 2
+        },
+        "synapseSparkPoolMaxNodeCount": {
+            "value": 2
+        },
+        "ctrlDeploySynapseADXPool": {
+            "value": false
+        },
+        "synapseADXPoolName": {
+            "value": "adxpool7s7mv"
+        },
+        "synapseADXDatabaseName": {
+            "value": "ADXDB"
+        },
+        "synapseADXPoolEnableAutoScale": {
+            "value": false
+        },
+        "synapseADXPoolMinSize": {
+            "value": 2
+        },
+        "synapseADXPoolMaxSize": {
+            "value": 2
+        },
+        "synapsePrivateLinkHubName": {
+            "value": "azsynapsehub7s7mv"
+        },
+        "purviewAccountName": {
+            "value": "azpurview7s7mv"
+        },
+        "purviewManagedRGName": {
+            "value": "azpurview7s7mv-mrg"
+        },
+        "keyVaultName": {
+            "value": "azkeyvault7s7mv"
+        },
+        "azureMLWorkspaceName": {
+            "value": "azmlwks7s7mv"
+        },
+        "azureMLStorageAccountName": {
+            "value": "azmlstorage7s7mv"
+        },
+        "azureMLAppInsightsName": {
+            "value": "azmlappinsights7s7mv"
+        },
+        "azureMLContainerRegistryName": {
+            "value": "azmlcontainerreg7s7mv"
+        },
+        "dataShareAccountName": {
+            "value": "azdatashare7s7mv"
+        },
+        "textAnalyticsAccountName": {
+            "value": "aztextanalytics7s7mv"
+        },
+        "anomalyDetectorName": {
+            "value": "azanomalydetector7s7mv"
+        },
+        "eventHubNamespaceName": {
+            "value": "azeventhubns7s7mv"
+        },
+        "eventHubName": {
+            "value": "azeventhub7s7mv"
+        },
+        "eventHubSku": {
+            "value": "Standard"
+        },
+        "eventHubPartitionCount": {
+            "value": 1
+        },
+        "iotHubName": {
+            "value": "aziothub7s7mv"
+        },
+        "iotHubSku": {
+            "value": "F1"
+        },
+        "streamAnalyticsJobName": {
+            "value": "azstreamjob7s7mv"
+        },
+        "streamAnalyticsJobSku": {
+            "value": "Standard"
+        }
+    }
+}
