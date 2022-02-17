@@ -16,24 +16,17 @@ jobs:
       - name: set up env
         shell: pwsh
         run: |
-          echo "MY_VARIABLE=hello" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-          echo "deploymentName=foo" >> $GITHUB_ENV
-          echo "rgName=bar" >> $GITHUB_ENV
-    
-          Write-Host $env:deploymentName
-          Write-Host $env:rgName
+          $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
+          $rgName = "synapse-demo"
 
-          $env:deploymentName = Get-Date -Format "yyyyMMddHHmmss"
-          $env:rgName = "synapse-demo"
-
-          Write-Host $env:deploymentName
-          Write-Host $env:rgName
+          echo "DEPLOYMENT_NAME=$deploymentName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          echo "RG_NAME=$rgName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: retrieve env
         shell: pwsh
         run: |
-          Write-Host $env:MY_VARIABLE
-          Write-Host $env:rgName
+          Write-Host $env:DEPLOYMENT_NAME
+          Write-Host $env:RG_NAME
           
       - uses: actions/checkout@v2
         with:
