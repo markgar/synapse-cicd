@@ -29,10 +29,8 @@ jobs:
           $rgName = "synapse-demo"
           $sqlAdminPasswordMap = "synapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
 
-          $sqlAdminPassword
-
           az group create -n $rgName --location eastus
-          az deployment group create -g $rgNameo --template-file ./main.bicep --parameters $sqlAdminPasswordMap --name $deploymentName
+          az deployment group create -g $rgName --template-file ./main.bicep --parameters $sqlAdminPasswordMap --name $deploymentName
 
       - name: Add access rights
         shell: pwsh
