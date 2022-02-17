@@ -23,9 +23,11 @@ jobs:
           $rgName = "synapse-demo"
           echo ($rgName) >> $env:RG_NAME
           
-      - name: set up env
+      - name: retrieve up env
         shell: pwsh
         run: |
+          echo $env:BRANCH_NAME
+          echo ${{ env.BRANCH_NAME }}
           echo $env:DEPLOYMENT_NAME
 
           echo $env:RG_NAME
@@ -37,8 +39,6 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-
 
       - name: Deploy Service
         shell: pwsh
