@@ -26,7 +26,7 @@ jobs:
       - name: retrieve up env
         shell: pwsh
         run: |
-          echo $env:CURRENT_BRANCH
+          echo $CURRENT_BRANCH
           echo "${{ env.CURRENT_BRANCH }}""
           echo $env:DEPLOYMENT_NAME
 
