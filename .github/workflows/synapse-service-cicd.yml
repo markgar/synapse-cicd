@@ -40,7 +40,7 @@ jobs:
         shell: pwsh
         run: |
           $deploymentName = $env:DEPLOYMENT_NAME
-          $rgName = $env:RG_NAM
+          $rgName = $env:RG_NAME
 
           Write-Host $deploymentName 
           Write-Host $rgName 
