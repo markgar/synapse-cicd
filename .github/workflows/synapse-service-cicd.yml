@@ -67,7 +67,8 @@ jobs:
           # UAMI needs Synapse Admin rights before it can make calls to the Data Plane APIs to create Synapse objects
           #------------------------------------------------------------------------------------------------------------
 
-          $token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
+          $token = az account get-access-token --resource=https://<workspacename-fhirservicename>.azurehealthcareapis.com --query accessToken --output tsv
+          #$token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
           $headers = @{ Authorization = "Bearer $token" }
 
           $uri = "https://$SynapseWorkspaceName.dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
