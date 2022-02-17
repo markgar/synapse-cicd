@@ -17,7 +17,7 @@ jobs:
         shell: pwsh
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
-          $rgName = "synapse-demo-2"
+          $rgName = "synapse-demo-3"
 
           echo "DEPLOYMENT_NAME=$deploymentName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "RG_NAME=$rgName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
@@ -66,29 +66,30 @@ jobs:
           # mark garner
           $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
 
-          #------------------------------------------------------------------------------------------------------------
-          # CONTROL PLANE OPERATION: ASSIGN SYNAPSE WORKSPACE ADMINISTRATOR TO USER-ASSIGNED MANAGED IDENTITY
-          # UAMI needs Synapse Admin rights before it can make calls to the Data Plane APIs to create Synapse objects
-          #------------------------------------------------------------------------------------------------------------
+          az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee $IdentityID
 
-          $token = az account get-access-token --resource=https://dev.azuresynapse.net --query accessToken --output tsv
-          #$token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
-          $headers = @{ Authorization = "Bearer $token" }
+          ##------------------------------------------------------------------------------------------------------------
+          ## CONTROL PLANE OPERATION: ASSIGN SYNAPSE WORKSPACE ADMINISTRATOR TO USER-ASSIGNED MANAGED IDENTITY
+          ## UAMI needs Synapse Admin rights before it can make calls to the Data Plane APIs to create Synapse objects
+          ##------------------------------------------------------------------------------------------------------------
 
-          $uri = "https://" + $workspaceName + ".dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
-          Write-Host $uri
+          #$token = az account get-access-token --resource=https://dev.azuresynapse.net --query accessToken --output tsv
+          ##$token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
+          #$headers = @{ Authorization = "Bearer $token" }
 
-          #Assign Synapse Workspace Administrator Role to UAMI
-          $body = "{
-            roleId: ""6e4bf58a-b8e1-4cc3-bbf9-d73143322b78"",
-            principalId: ""$IdentityID""
-          }"
+          #$uri = "https://" + $workspaceName + ".dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
+          #Write-Host $uri
 
-          Write-Host "Assign Synapse Administrator Role to UAMI..."
+          ##Assign Synapse Workspace Administrator Role to UAMI
+          #$body = "{
+          #  roleId: ""6e4bf58a-b8e1-4cc3-bbf9-d73143322b78"",
+          #  principalId: ""$IdentityID""
+          #}"
 
-          Invoke-RestMethod -Method Post -ContentType "application/json" -Uri $uri -Headers $headers -Body $body
+          #Write-Host "Assign Synapse Administrator Role to UAMI..."
+
+          #Invoke-RestMethod -Method Post -ContentType "application/json" -Uri $uri -Headers $headers -Body $body
 
 
 
 
-          az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee 36a895ff-8e24-4b03-bf63-574a9b24ad8f
