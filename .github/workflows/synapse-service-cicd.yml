@@ -29,17 +29,6 @@ jobs:
           Write-Host $env:deploymentName
           Write-Host $env:rgName
           
-          
-          echo ($deploymentName) >> $env:DEPLOYMENT_NAME
-
-
-          echo ($rgName) >> $env:RG_NAME
-                    echo $CURRENT_BRANCH
-          echo "${{ env.CURRENT_BRANCH }}""
-          echo $env:DEPLOYMENT_NAME
-
-          echo $env:RG_NAME
-          
       - uses: actions/checkout@v2
         with:
           fetch-depth: 2
