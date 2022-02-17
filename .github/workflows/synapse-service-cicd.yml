@@ -77,7 +77,7 @@ jobs:
 
           $uri = "https://" + $workspaceName + ".dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
           Write-Host $uri
-          
+
           #Assign Synapse Workspace Administrator Role to UAMI
           $body = "{
             roleId: ""6e4bf58a-b8e1-4cc3-bbf9-d73143322b78"",
@@ -91,4 +91,4 @@ jobs:
 
 
 
-          #az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee mgarner@microsoft.com
+          az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee 36a895ff-8e24-4b03-bf63-574a9b24ad8f
