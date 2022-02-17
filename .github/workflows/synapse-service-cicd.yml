@@ -75,7 +75,7 @@ jobs:
 
           #Assign Synapse Workspace Administrator Role to UAMI
           $body = "{
-            roleId: ""6e4bf58a-b8e1-4cc3-bbf9-d73143322b78"",
+            roleId: ""5d9129b8-e338-4a58-9914-fd49a178fc92"",
             principalId: ""$IdentityID""
           }"
 
