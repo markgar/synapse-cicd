@@ -14,14 +14,6 @@ jobs:
 
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: set up env
         shell: pwsh
         run: |
@@ -30,6 +22,21 @@ jobs:
 
           $rgName = "synapse-demo"
           echo ($rgName) >> $env.RG_NAME
+          
+      - name: set up env
+        shell: pwsh
+        run: |
+          echo $env:DEPLOYMENT_NAME
+
+          echo $env:RG_NAME
+          
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
 
 
@@ -41,7 +48,7 @@ jobs:
 
           Write-Host $deploymentName 
           Write-Host $rgName 
-          
+
           $sqlAdminPasswordMap = "synapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
 
           az group create -n $rgName --location eastus
