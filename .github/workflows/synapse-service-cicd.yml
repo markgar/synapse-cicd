@@ -26,6 +26,8 @@ jobs:
         shell: pwsh
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
+          echo ($deploymentName) >> $env.DEPLOYMENT_NAME
+          echo $env.DEPLOYMENT_NAME
           $rgName = "synapse-demo"
           $sqlAdminPasswordMap = "synapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
 
@@ -36,4 +38,8 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Hello"
+          az deployment group show \
+            -g <resource-group-name> \
+            -n <deployment-name> \
+            --query properties.outputs.resourceID.value
           //az synapse role assignment create --workspace-name mynewworkspace-mg --role "Synapse Administrator" --assignee tisulliv@microsoft.com
