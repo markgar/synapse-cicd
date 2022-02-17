@@ -71,7 +71,7 @@ jobs:
           #$token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
           $headers = @{ Authorization = "Bearer $token" }
 
-          $uri = "https://$workspaceName.dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
+          $uri = "https://azsynapsewksivfqu.dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
 
           #Assign Synapse Workspace Administrator Role to UAMI
           $body = "{
