@@ -20,6 +20,10 @@ jobs:
           Write-Host $env:Test
           echo $env:Test
 
+          $env:Test = "Hello"
+
+          Write-Host $env:Test
+
 
         env:
           Test: Blah
