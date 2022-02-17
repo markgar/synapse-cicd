@@ -77,15 +77,15 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     // }
   }
 
-  resource admin 'administrators' = {
-    name: 'activeDirectory'
-    properties: {
-      administratorType: 'Synapse Administrator'
-      login: 'tisulliv@microsoft.com'
-      sid: '36a895ff-8e24-4b03-bf63-574aza9b24ad8f' //timsullivan
-      tenantId: subscription().tenantId
-    }
-  }
+  // resource admin 'administrators' = {
+  //   name: 'activeDirectory'
+  //   properties: {
+  //     administratorType: 'Synapse Administrator'
+  //     login: 'tisulliv@microsoft.com'
+  //     sid: '36a895ff-8e24-4b03-bf63-574aza9b24ad8f' //timsullivan
+  //     tenantId: subscription().tenantId
+  //   }
+  // }
 
 
   //Default Firewall Rules - Allow All Traffic
