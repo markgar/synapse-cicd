@@ -1,32 +1,19 @@
-param networkIsolationMode string
-param resourceLocation string
+param networkIsolationMode string = 'default'
+param resourceLocation string = resourceGroup().location
+param uniqueSuffix string = substring(uniqueString(resourceGroup().id),0,5)
 
-param ctrlDeploySynapseSQLPool bool
-param ctrlDeploySynapseSparkPool bool
-param ctrlDeploySynapseADXPool bool
+param workspaceDataLakeAccountName string = 'azwksdatalake${uniqueSuffix}'
 
-param workspaceDataLakeAccountName string
+param dataLakeSandpitZoneName string = 'sandpit'
+param synapseDefaultContainerName string = synapseWorkspaceName
 
-param dataLakeSandpitZoneName string
-param synapseDefaultContainerName string
-
-param synapseWorkspaceName string
-param synapseSqlAdminUserName string
+param synapseWorkspaceName string = 'azsynapsewks${uniqueSuffix}'
+param synapseSqlAdminUserName string = 'azsynapseadmin'
 param synapseSqlAdminPassword string
-param synapseManagedRGName string
-param synapseDedicatedSQLPoolName string
-param synapseSQLPoolSKU string
-param synapseSparkPoolName string
-param synapseSparkPoolNodeSize string
-param synapseSparkPoolMinNodeCount int
-param synapseSparkPoolMaxNodeCount int
-param synapseADXPoolName string
-param synapseADXDatabaseName string
-param synapseADXPoolEnableAutoScale bool
-param synapseADXPoolMinSize int
-param synapseADXPoolMaxSize int
+param synapseManagedRGName string = '${synapseWorkspaceName}-mrg'
 
-param purviewAccountID string
+
+//param purviewAccountID string
 
 var storageEnvironmentDNS = environment().suffixes.storage
 var dataLakeStorageAccountUrl = 'https://${workspaceDataLakeAccountName}.dfs.${storageEnvironmentDNS}'
@@ -85,23 +72,21 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     managedVirtualNetworkSettings: (networkIsolationMode == 'vNet')? {
       preventDataExfiltration:true
     }: null
-    purviewConfiguration:{
-      purviewResourceId: purviewAccountID
+    // purviewConfiguration:{
+    //   purviewResourceId: purviewAccountID
+    // }
+  }
+
+  resource admin 'administrators' = {
+    name: 'activeDirectory'
+    properties: {
+      administratorType: 'Synapse Administrator'
+      login: 'tisulliv@microsoft.com'
+      sid: '36a895ff-8e24-4b03-bf63-574aza9b24ad8f' //timsullivan
+      tenantId: subscription().tenantId
     }
   }
 
-  //Dedicated SQL Pool
-  resource r_sqlPool 'sqlPools' = if (ctrlDeploySynapseSQLPool == true){
-    name: synapseDedicatedSQLPoolName
-    location: resourceLocation
-    sku:{
-      name:synapseSQLPoolSKU
-    }
-    properties:{
-      createMode:'Default'
-      collation: 'SQL_Latin1_General_CP1_CI_AS'
-    }
-  }
 
   //Default Firewall Rules - Allow All Traffic
   resource r_synapseWorkspaceFirewallAllowAll 'firewallRules' = if (networkIsolationMode == 'default'){
@@ -131,53 +116,6 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
       }
     }
   }
-
-  //Spark Pool
-  resource r_sparkPool 'bigDataPools' = if(ctrlDeploySynapseSparkPool == true){
-    name: synapseSparkPoolName
-    location: resourceLocation
-    properties:{
-      autoPause:{
-        enabled:true
-        delayInMinutes: 15
-      }
-      nodeSize: synapseSparkPoolNodeSize
-      nodeSizeFamily:'MemoryOptimized'
-      sparkVersion: '2.4'
-      autoScale:{
-        enabled:true
-        minNodeCount: synapseSparkPoolMinNodeCount
-        maxNodeCount: synapseSparkPoolMaxNodeCount
-      }
-    }
-  }
-
-  resource r_adxPool 'kustoPools@2021-06-01-preview' = if (ctrlDeploySynapseADXPool == true) {
-    name: synapseADXPoolName
-    location: resourceLocation
-    sku: {
-      capacity: 2
-      name: 'Compute optimized'
-      size: 'Extra small'
-    }
-    properties: {
-      enablePurge: false
-      workspaceUID: r_synapseWorkspace.properties.workspaceUID
-      enableStreamingIngest: false
-      optimizedAutoscale: {
-        isEnabled: synapseADXPoolEnableAutoScale
-        maximum: synapseADXPoolMaxSize
-        minimum: synapseADXPoolMinSize
-        version: 1
-      }
-    }
-
-    resource r_adxDatabase 'databases' = {
-      name: synapseADXDatabaseName
-      kind: 'ReadWrite'
-      location: resourceLocation
-    }
-  }
 }
 
 //Synapse Workspace Role Assignment as Blob Data Contributor Role in the Data Lake Storage Account
@@ -193,12 +131,3 @@ resource r_dataLakeRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-
 }
 
 
-output workspaceDataLakeAccountID string = r_workspaceDataLakeAccount.id
-output workspaceDataLakeAccountName string = r_workspaceDataLakeAccount.name
-output synapseWorkspaceID string = r_synapseWorkspace.id
-output synapseWorkspaceName string = r_synapseWorkspace.name
-output synapseSQLDedicatedEndpoint string = r_synapseWorkspace.properties.connectivityEndpoints.sql
-output synapseSQLServerlessEndpoint string = r_synapseWorkspace.properties.connectivityEndpoints.sqlOnDemand
-output synapseWorkspaceSparkID string = ctrlDeploySynapseSparkPool ? r_synapseWorkspace::r_sparkPool.id : ''
-output synapseWorkspaceSparkName string = ctrlDeploySynapseSparkPool ? r_synapseWorkspace::r_sparkPool.name : ''
-output synapseWorkspaceIdentityPrincipalID string = r_synapseWorkspace.identity.principalId
