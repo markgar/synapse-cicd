@@ -11,15 +11,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: 
-      deploymentName: default
-      rgName: default
-
 
     steps:
       - name: set up env
         shell: pwsh
         run: |
+          echo "deploymentName=foo" >> $GITHUB_ENV
+          echo "rgName=bar" >> $GITHUB_ENV
+    
           Write-Host $env:deploymentName
           Write-Host $env:rgName
 
@@ -29,7 +28,7 @@ jobs:
           Write-Host $env:deploymentName
           Write-Host $env:rgName
 
-      - name: retrieve up env
+      - name: retrieve env
         shell: pwsh
         run: |
           Write-Host $env:deploymentName
