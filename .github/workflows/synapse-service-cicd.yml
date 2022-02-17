@@ -56,4 +56,4 @@ jobs:
           $workspaceName = az deployment group show -g $env:RG_NAME -n $env:DEPLOYMENT_NAME --query properties.outputs.workspaceName.value
           Write-Host $workspaceName
           
-          #az synapse role assignment create --workspace-name mynewworkspace-mg --role "Synapse Administrator" --assignee tisulliv@microsoft.com
+          az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee mgarner@microsoft.com
