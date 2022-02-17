@@ -60,7 +60,11 @@ jobs:
           # MAIN SCRIPT BODY
           #------------------------------------------------------------------------------------------------------------
           $SynapseWorkspaceName = $workspaceName
-          $IdentityID = "36a895ff-8e24-4b03-bf63-574a9b24ad8f"
+          # tim sullivan
+          # $IdentityID = "36a895ff-8e24-4b03-bf63-574a9b24ad8f" 
+          
+          # mark garner
+          $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
 
           #------------------------------------------------------------------------------------------------------------
           # CONTROL PLANE OPERATION: ASSIGN SYNAPSE WORKSPACE ADMINISTRATOR TO USER-ASSIGNED MANAGED IDENTITY
@@ -75,7 +79,7 @@ jobs:
 
           #Assign Synapse Workspace Administrator Role to UAMI
           $body = "{
-            roleId: ""5d9129b8-e338-4a58-9914-fd49a178fc92"",
+            roleId: ""6e4bf58a-b8e1-4cc3-bbf9-d73143322b78"",
             principalId: ""$IdentityID""
           }"
 
