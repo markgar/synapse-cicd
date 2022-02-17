@@ -18,19 +18,21 @@ jobs:
         shell: pwsh
         run: |
           Write-Host $env:Test
-          
-          $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
-          echo ($deploymentName) >> $env:DEPLOYMENT_NAME
 
-          $rgName = "synapse-demo"
-          echo ($rgName) >> $env:RG_NAME
+
         env:
           Test: Blah
           
       - name: retrieve up env
         shell: pwsh
         run: |
-          echo $CURRENT_BRANCH
+
+          $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
+          echo ($deploymentName) >> $env:DEPLOYMENT_NAME
+
+          $rgName = "synapse-demo"
+          echo ($rgName) >> $env:RG_NAME
+                    echo $CURRENT_BRANCH
           echo "${{ env.CURRENT_BRANCH }}""
           echo $env:DEPLOYMENT_NAME
 
