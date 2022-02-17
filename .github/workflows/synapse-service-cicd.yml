@@ -11,12 +11,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env: 
+      deploymentName: default
+      rgName: default
 
 
     steps:
       - name: set up env
         shell: pwsh
         run: |
+          Write-Host $env:deploymentName
+          Write-Host $env:rgName
+
           $env:deploymentName = Get-Date -Format "yyyyMMddHHmmss"
           $env:rgName = "synapse-demo"
 
