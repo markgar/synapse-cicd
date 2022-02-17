@@ -22,13 +22,26 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Service
+      - name: set up env
         shell: pwsh
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
           echo ($deploymentName) >> $env.DEPLOYMENT_NAME
-          echo $env.DEPLOYMENT_NAME
+
           $rgName = "synapse-demo"
+          echo ($rgName) >> $env.RG_NAME
+
+
+
+      - name: Deploy Service
+        shell: pwsh
+        run: |
+          $deploymentName = ${{ env.DEPLOYMENT_NAME }}
+          $rgName = ${{ env.RG_NAME }}
+
+          Write-Host $deploymentName 
+          Write-Host $rgName 
+          
           $sqlAdminPasswordMap = "synapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
 
           az group create -n $rgName --location eastus
