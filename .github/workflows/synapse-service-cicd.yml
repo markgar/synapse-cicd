@@ -53,7 +53,7 @@ jobs:
       - name: Add access rights
         shell: pwsh
         run: |
-          $workspaceName = az deployment group show -g $env:RG_NAME -n $env:DEPLOYMENT_NAME --query properties.outputs.workspaceName.value
+          $workspaceName = az deployment group show -g $env:RG_NAME -n $env:DEPLOYMENT_NAME --query properties.outputs.workspaceName.value --output tsv
           Write-Host $workspaceName
           
           #------------------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ jobs:
           #$token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
           $headers = @{ Authorization = "Bearer $token" }
 
-          $uri = "https://" + $workspaceName + ".dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
+          $uri = "https://$workspaceName.dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
 
           #Assign Synapse Workspace Administrator Role to UAMI
           $body = "{
