@@ -39,8 +39,8 @@ jobs:
       - name: Deploy Service
         shell: pwsh
         run: |
-          $deploymentName = ${{ env.DEPLOYMENT_NAME }}
-          $rgName = ${{ env.RG_NAME }}
+          $deploymentName = $env:DEPLOYMENT_NAME
+          $rgName = $env:RG_NAM
 
           Write-Host $deploymentName 
           Write-Host $rgName 
@@ -53,9 +53,9 @@ jobs:
       - name: Add access rights
         shell: pwsh
         run: |
-          Write-Host "Hello"
-          az deployment group show \
-            -g <resource-group-name> \
-            -n <deployment-name> \
-            --query properties.outputs.resourceID.value
+          $workspaceName = az deployment group show \
+            -g $env:RG_NAME \
+            -n $env:DEPLOYMENT_NAME \
+            --query properties.outputs.workspaceName.value
+          Write-Host $workspaceName
           //az synapse role assignment create --workspace-name mynewworkspace-mg --role "Synapse Administrator" --assignee tisulliv@microsoft.com

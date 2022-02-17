@@ -130,4 +130,4 @@ resource r_dataLakeRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-
   }
 }
 
-
+output workspaceName string = r_synapseWorkspace.name
