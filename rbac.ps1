@@ -1,8 +1,12 @@
 #------------------------------------------------------------------------------------------------------------
 # MAIN SCRIPT BODY
 #------------------------------------------------------------------------------------------------------------
-$SynapseWorkspaceName = "azsynapsewkslqjyl"
-$IdentityID = "36a895ff-8e24-4b03-bf63-574a9b24ad8f"
+$SynapseWorkspaceName = "azsynapsewksivfqu"
+# tim sullivan
+# $IdentityID = "36a895ff-8e24-4b03-bf63-574a9b24ad8f" 
+
+# mark garner
+$IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92"
 
 #------------------------------------------------------------------------------------------------------------
 # CONTROL PLANE OPERATION: ASSIGN SYNAPSE WORKSPACE ADMINISTRATOR TO USER-ASSIGNED MANAGED IDENTITY

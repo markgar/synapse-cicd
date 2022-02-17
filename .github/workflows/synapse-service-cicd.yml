@@ -17,7 +17,7 @@ jobs:
         shell: pwsh
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
-          $rgName = "synapse-demo"
+          $rgName = "synapse-demo-2"
 
           echo "DEPLOYMENT_NAME=$deploymentName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "RG_NAME=$rgName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
@@ -75,7 +75,7 @@ jobs:
           #$token = (Get-AzAccessToken -Resource "https://dev.azuresynapse.net").Token
           $headers = @{ Authorization = "Bearer $token" }
 
-          $uri = "https://azsynapsewksivfqu.dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
+          $uri = "https://" + $workspaceName + ".dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview"
 
           #Assign Synapse Workspace Administrator Role to UAMI
           $body = "{
