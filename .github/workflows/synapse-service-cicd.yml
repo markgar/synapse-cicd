@@ -27,12 +27,12 @@ jobs:
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
           $rgName = "synapse-demo"
-          $sqlAdminPassword = "ynapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
+          $sqlAdminPasswordMap = "synapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
 
           $sqlAdminPassword
 
           az group create -n $rgName --location eastus
-          az deployment group create -g $rgNameo --template-file ./main.bicep --parameters $sqlAdminPassword --name $deploymentName
+          az deployment group create -g $rgNameo --template-file ./main.bicep --parameters $sqlAdminPasswordMap --name $deploymentName
 
       - name: Add access rights
         shell: pwsh
