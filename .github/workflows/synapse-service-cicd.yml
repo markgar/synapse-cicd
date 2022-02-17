@@ -17,11 +17,15 @@ jobs:
       - name: set up env
         shell: pwsh
         run: |
+          Write-Host $env:Test
+          
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
           echo ($deploymentName) >> $env:DEPLOYMENT_NAME
 
           $rgName = "synapse-demo"
           echo ($rgName) >> $env:RG_NAME
+        env:
+          Test: Blah
           
       - name: retrieve up env
         shell: pwsh
