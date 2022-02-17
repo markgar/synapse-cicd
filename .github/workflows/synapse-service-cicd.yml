@@ -27,7 +27,7 @@ jobs:
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
           $rgName = "synapse-demo"
-          $sqlAdminPassword = "synapseSqlAdminPassword=" & ${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}
+          $sqlAdminPassword = "ynapseSqlAdminPassword=${{ secrets.SYNAPSE_SQL_ADMIN_PASSWORD }}"
 
           $sqlAdminPassword
 
