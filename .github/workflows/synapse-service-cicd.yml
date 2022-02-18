@@ -17,7 +17,7 @@ jobs:
         shell: pwsh
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
-          $rgName = "synapse-demo-3"
+          $rgName = "synapse-demo-4"
 
           echo "DEPLOYMENT_NAME=$deploymentName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "RG_NAME=$rgName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
@@ -57,10 +57,7 @@ jobs:
           Write-Host $workspaceName
           
           # mark garner
-          # $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
-
-          # matt lunzer
-          $IdentityID = "f4f6643c-87b8-4f6e-81b4-14adac574f70" 
+          $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
 
           $deployedIdentityId = az synapse role assignment list --workspace-name azsynapsewksp6d7i --query "[?principalId=='$IdentityID'].principalId" -o tsv
           if ($deployedIdentityID -ne $IdentityID)
