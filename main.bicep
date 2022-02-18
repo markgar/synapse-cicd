@@ -1,6 +1,6 @@
 param networkIsolationMode string = 'default'
 param resourceLocation string = resourceGroup().location
-param uniqueSuffix string = substring(uniqueString(resourceGroup().id),0,5)
+param uniqueSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
 
 param workspaceDataLakeAccountName string = 'azwksdatalake${uniqueSuffix}'
 
@@ -12,7 +12,6 @@ param synapseSqlAdminUserName string = 'azsynapseadmin'
 param synapseSqlAdminPassword string
 param synapseManagedRGName string = '${synapseWorkspaceName}-mrg'
 
-
 //param purviewAccountID string
 
 var storageEnvironmentDNS = environment().suffixes.storage
@@ -23,23 +22,23 @@ var azureRBACStorageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b002
 resource r_workspaceDataLakeAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: workspaceDataLakeAccountName
   location: resourceLocation
-  properties:{
+  properties: {
     isHnsEnabled: true
-    accessTier:'Hot'
+    accessTier: 'Hot'
     networkAcls: {
-      defaultAction: (networkIsolationMode == 'vNet')? 'Deny' : 'Allow'
-      bypass:'None'
+      defaultAction: (networkIsolationMode == 'vNet') ? 'Deny' : 'Allow'
+      bypass: 'None'
       resourceAccessRules: [
         {
           tenantId: subscription().tenantId
           resourceId: r_synapseWorkspace.id
         }
-    ]
+      ]
     }
   }
-  kind:'StorageV2'
+  kind: 'StorageV2'
   sku: {
-      name: 'Standard_LRS'
+    name: 'Standard_LRS'
   }
 }
 
@@ -49,7 +48,7 @@ var privateContainerNames = [
 ]
 
 resource r_dataLakePrivateContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = [for containerName in privateContainerNames: {
-  name:'${r_workspaceDataLakeAccount.name}/default/${containerName}'
+  name: '${r_workspaceDataLakeAccount.name}/default/${containerName}'
 }]
 
 //Synapse Workspace
@@ -68,7 +67,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     sqlAdministratorLoginPassword: synapseSqlAdminPassword
     //publicNetworkAccess: Post Deployment Script will disable public network access for vNet integrated deployments.
     managedResourceGroupName: synapseManagedRGName
-    managedVirtualNetwork: (networkIsolationMode == 'vNet') ? 'default' : ''
+    managedVirtualNetwork: ''  (networkIsolationMode == 'vNet') ? 'default' : ''
     managedVirtualNetworkSettings: (networkIsolationMode == 'vNet')? {
       preventDataExfiltration:true
     }: null
@@ -123,10 +122,10 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
 resource r_dataLakeRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
   name: guid(r_synapseWorkspace.name, r_workspaceDataLakeAccount.name)
   scope: r_workspaceDataLakeAccount
-  properties:{
+  properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', azureRBACStorageBlobDataContributorRoleID)
     principalId: r_synapseWorkspace.identity.principalId
-    principalType:'ServicePrincipal'
+    principalType: 'ServicePrincipal'
   }
 }
 
