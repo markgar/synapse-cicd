@@ -67,7 +67,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     sqlAdministratorLoginPassword: synapseSqlAdminPassword
     //publicNetworkAccess: Post Deployment Script will disable public network access for vNet integrated deployments.
     managedResourceGroupName: synapseManagedRGName
-    managedVirtualNetwork: ''  (networkIsolationMode == 'vNet') ? 'default' : ''
+    managedVirtualNetwork: (networkIsolationMode == 'vNet') ? 'default' : ''
     managedVirtualNetworkSettings: (networkIsolationMode == 'vNet')? {
       preventDataExfiltration:true
     }: null
