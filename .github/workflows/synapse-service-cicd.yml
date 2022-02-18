@@ -63,5 +63,6 @@ jobs:
           $isInitialDeployment = az synapse workspace show -n $workspaceName -g $env:RG_NAME --query tags.InitialProvisioning -o tsv
           if ($isInitialDeployment -ne 'no')
           {
+            Write-Host 'Adding initial administrator'
             az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee $IdentityID
           }
