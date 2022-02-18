@@ -57,7 +57,10 @@ jobs:
           Write-Host $workspaceName
           
           # mark garner
-          $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
+          # $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
+
+          # matt lunzer
+          $IdentityID = "f4f6643c-87b8-4f6e-81b4-14adac574f70" 
 
           $deployedIdentityId = az synapse role assignment list --workspace-name azsynapsewksp6d7i --query "[?principalId=='$IdentityID'].principalId" -o tsv
           if ($deployedIdentityID -ne $IdentityID)
