@@ -59,8 +59,9 @@ jobs:
           # mark garner
           $IdentityID = "5d9129b8-e338-4a58-9914-fd49a178fc92" 
 
-          $deployedIdentityId = az synapse role assignment list --workspace-name azsynapsewksp6d7i --query "[?principalId=='$IdentityID'].principalId" -o tsv
-          if ($deployedIdentityID -ne $IdentityID)
+          # $deployedIdentityId = az synapse role assignment list --workspace-name azsynapsewksp6d7i --query "[?principalId=='$IdentityID'].principalId" -o tsv
+          $isInitialDeployment = az synapse workspace show -n $workspaceName -g $env:RG_NAME --query tags.InitialProvisioning -o tsv
+          if ($isInitialDeployment -ne 'no')
           {
             az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee $IdentityID
           }
