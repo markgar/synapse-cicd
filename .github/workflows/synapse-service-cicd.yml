@@ -17,7 +17,7 @@ jobs:
         shell: pwsh
         run: |
           $deploymentName = Get-Date -Format "yyyyMMddHHmmss"
-          $rgName = "synapse-demo-4"
+          $rgName = "synapse-demo-5"
 
           echo "DEPLOYMENT_NAME=$deploymentName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "RG_NAME=$rgName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
