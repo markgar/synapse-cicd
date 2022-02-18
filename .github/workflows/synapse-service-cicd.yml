@@ -66,3 +66,7 @@ jobs:
             Write-Host 'Adding initial administrator'
             az synapse role assignment create --workspace-name $workspaceName --role "Synapse Administrator" --assignee $IdentityID
           }
+          else
+          {
+            Write-Host 'Initial admin already set'
+          }
