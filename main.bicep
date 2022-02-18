@@ -3,7 +3,7 @@
   'vNet'
 ])
 @description('Network Isolation Mode')
-param networkIsolationMode string = 'vNet'
+param networkIsolationMode string = 'default'
 param resourceLocation string = resourceGroup().location
 param uniqueSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
 
