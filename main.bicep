@@ -3,7 +3,7 @@
   'vNet'
 ])
 @description('Network Isolation Mode')
-param networkIsolationMode string = 'default'
+param networkIsolationMode string = 'vNet'
 param resourceLocation string = resourceGroup().location
 param uniqueSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
 
@@ -67,6 +67,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     defaultDataLakeStorage:{
       accountUrl: dataLakeStorageAccountUrl
       filesystem: synapseDefaultContainerName
+      createManagedPrivateEndpoint: true
     }
     sqlAdministratorLogin: synapseSqlAdminUserName
     sqlAdministratorLoginPassword: synapseSqlAdminPassword
